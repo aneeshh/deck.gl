@@ -72,7 +72,7 @@ const defaultProps = {
 let counter = 0;
 
 export default class Layer {
-  constructor(props) {
+  constructor(...props) {
     // Call a helper function to merge the incoming props with defaults and freeze them.
     this.props = this._normalizeProps(props);
 
@@ -663,11 +663,11 @@ ${flags.viewportChanged ? 'viewport' : ''}\
   }
 
   // Helper for constructor, merges props with default props and freezes them
-  _normalizeProps(props) {
+  _normalizeProps(propObjectList) {
     // If sublayer has static defaultProps member, getDefaultProps will return it
     const mergedDefaultProps = getDefaultProps(this);
     // Merge supplied props with pre-merged default props
-    props = Object.assign({}, mergedDefaultProps, props);
+    const props = Object.assign({}, mergedDefaultProps, ...propObjectList);
     // Accept null as data - otherwise apps and layers need to add ugly checks
     // Use constant fallback so that data change is not triggered
     props.data = props.data || EMPTY_ARRAY;
